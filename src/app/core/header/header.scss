@@ -1,3 +1,27 @@
-.example-spacer {
+.nav-container {
+  width: 100%;
+  min-height: 80px;
+}
+
+.nav-toolbar {
+  width: 100%;
+  min-height: 80px;
+}
+
+.drawer-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.sidenav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.spacer {
   flex: 1 1 auto;
 }

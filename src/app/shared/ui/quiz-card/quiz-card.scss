@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.quiz-card {
+  max-width: 840px;
+  margin: 4rem auto;
+  padding: 4rem;
+  display: block;
+}
+
+.quiz-card.center {
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .quiz-card {
+    margin: 2rem auto;
+    padding: 2.5rem 1.5rem;
+  }
+}

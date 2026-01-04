@@ -1,13 +1,19 @@
-<mat-toolbar>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
-</mat-toolbar>
+<mat-drawer-container class="nav-container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" [autoFocus]="false">
+    <div class="drawer-actions">
+      <button mat-stroked-button color="primary">Settings</button>
+      <button mat-stroked-button color="accent">Quiz</button>
+      <button mat-stroked-button>Profile</button>
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar class="nav-toolbar">
+      <button matIconButton (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="spacer"></span>
+            <a href="/"><span>Learn Albanian Quiz</span></a>
+    </mat-toolbar>
+  </mat-drawer-content>
+</mat-drawer-container>
