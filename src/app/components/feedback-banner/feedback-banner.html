@@ -1,0 +1,15 @@
+<mat-card
+  *ngIf="status !== 'idle'"
+  class="feedback-banner"
+  [class.correct]="status === 'correct'"
+  [class.wrong]="status === 'wrong'"
+>
+  <ng-container *ngIf="status === 'correct'; else wrongFeedback">
+    <div class="message">Correct! Nice work.</div>
+  </ng-container>
+
+  <ng-template #wrongFeedback>
+    <div class="message">Not quite. The correct answer is "{{ correctAnswer }}".</div>
+    <div class="your-answer" *ngIf="yourAnswer">You answered: {{ yourAnswer }}</div>
+  </ng-template>
+</mat-card>

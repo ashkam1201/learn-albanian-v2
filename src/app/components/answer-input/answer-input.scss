@@ -1,0 +1,14 @@
+.answer-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.answer-field {
+  width: 100%;
+}
+
+button {
+  align-self: flex-end;
+}

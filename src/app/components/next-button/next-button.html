@@ -1,0 +1,6 @@
+<div class="next-button">
+  <button mat-raised-button color="accent" (click)="next.emit()">
+    <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+    {{ isLast ? 'Finish' : 'Next' }}
+  </button>
+</div>

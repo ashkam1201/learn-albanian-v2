@@ -1,3 +1,73 @@
-<app-quiz-card>
-  <p>quiz-play works!</p>
-</app-quiz-card>
+<div class="quiz-play">
+  <app-progress-header
+    *ngIf="!finished()"
+    [currentIndex]="currentIndexDisplay()"
+    [total]="quizEngine.totalQuestions()"
+    [score]="quizEngine.score()"
+  />
+
+  <mat-card class="info-card">
+    <h3>How the quiz works:</h3>
+    <p>
+      You will be shown a word and asked to translate it. Sometimes you translate from Albanian to
+      English, and sometimes from English to Albanian. The target language will always be written
+      under the word.
+    </p>
+    <p>
+      There is a hint button you can use if you are really stuck. Try to use it only when you truly
+      don't know the answer. If you're unsure, take your time and think it through first - that's
+      how you learn best.
+    </p>
+  </mat-card>
+
+  <ng-container *ngIf="!finished() && quizEngine.currentQuestion() as question; else finishedState">
+    <app-quiz-card align="center" class="play-card">
+      <app-question-prompt
+        [promptText]="question.prompt"
+        [toLang]="question.toLang"
+        [fromLang]="question.fromLang"
+      />
+
+      <div class="input-row">
+        <ng-container *ngIf="quizSettings.showHints()">
+          <app-hint-button
+            [disabled]="quizEngine.status() !== 'idle'"
+            [hintsLeft]="quizEngine.hintsLeft()"
+            (requestHint)="handleRequestHint()"
+          />
+        </ng-container>
+
+        <app-answer-input
+          [disabled]="quizEngine.status() !== 'idle'"
+          (submitted)="handleSubmit($event)"
+        />
+      </div>
+
+      <app-hint-panel
+        *ngIf="quizSettings.showHints()"
+        [visible]="!!quizEngine.currentHint()"
+        [hintText]="quizEngine.currentHint() || ''"
+      />
+
+      <app-feedback-banner
+        [status]="quizEngine.status()"
+        [correctAnswer]="question.answer"
+        [yourAnswer]="quizEngine.lastAnswer() ?? ''"
+      />
+
+      <app-next-button
+        *ngIf="quizEngine.status() !== 'idle'"
+        [isLast]="quizEngine.isLastQuestion()"
+        (next)="handleNext()"
+      />
+    </app-quiz-card>
+  </ng-container>
+
+  <ng-template #finishedState>
+    <app-quiz-card align="center" class="finished-card">
+      <h2>Finished!</h2>
+      <p>You scored {{ quizEngine.score() }} / {{ quizEngine.totalQuestions() }}.</p>
+      <button mat-raised-button color="primary" (click)="restart()">Play again</button>
+    </app-quiz-card>
+  </ng-template>
+</div>

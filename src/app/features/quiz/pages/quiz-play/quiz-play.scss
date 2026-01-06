@@ -1,0 +1,38 @@
+.quiz-play {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-card {
+  line-height: 1.5;
+}
+
+.play-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .input-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  app-answer-input {
+    flex: 1;
+  }
+}
+
+.finished-card {
+  text-align: center;
+}

@@ -1,0 +1,21 @@
+<form class="answer-input" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" class="answer-field">
+    <mat-label>Your answer</mat-label>
+    <input
+      matInput
+      name="answer"
+      [(ngModel)]="value"
+      [disabled]="disabled"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="disabled"
+  >
+    Submit
+  </button>
+</form>

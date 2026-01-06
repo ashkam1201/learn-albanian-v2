@@ -1,0 +1,12 @@
+<app-quiz-card>
+  <h2>Settings</h2>
+  <p>Control how your quiz works.</p>
+
+  <mat-checkbox
+    color="primary"
+    [checked]="showHints()"
+    (change)="toggleHints($event.checked)"
+  >
+    Show hints during questions
+  </mat-checkbox>
+</app-quiz-card>
