@@ -1,10 +1,13 @@
 .progress-header {
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin: 1rem;
+  display: inline-flex;
+  width: fit-content;
+  gap: 1rem;
 }
 
 .spacer {
-  flex: 1 1 auto;
+  display: none;
 }
 
 .score {

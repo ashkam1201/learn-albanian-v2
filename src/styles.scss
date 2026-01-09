@@ -12,9 +12,10 @@ html {
       primary: mat.$azure-palette,
       tertiary: mat.$blue-palette,
     ),
-    typography: Roboto,
+    typography: 'Poppins',
     density: 0,
   ));
+  height: 100%;
 }
 
 body {
@@ -29,19 +30,17 @@ body {
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
+  font-family: 'Poppins', sans-serif;
 
   // Reset the user agent margin.
   margin: 0;
-}
-/* You can add global styles to this file, and also import other style files */
-/* styles.css */
-html, body {
-  height: 100%;
-  margin: 0;
-}
-body {
+  min-height: 100%;
   background: linear-gradient(135deg, #3550DC, #27E9F7);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+button,
+input,
+textarea,
+select {
+  font-family: 'Poppins', sans-serif;
+}

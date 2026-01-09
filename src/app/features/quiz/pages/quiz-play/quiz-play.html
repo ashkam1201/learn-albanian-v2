@@ -6,20 +6,6 @@
     [score]="quizEngine.score()"
   />
 
-  <mat-card class="info-card">
-    <h3>How the quiz works:</h3>
-    <p>
-      You will be shown a word and asked to translate it. Sometimes you translate from Albanian to
-      English, and sometimes from English to Albanian. The target language will always be written
-      under the word.
-    </p>
-    <p>
-      There is a hint button you can use if you are really stuck. Try to use it only when you truly
-      don't know the answer. If you're unsure, take your time and think it through first - that's
-      how you learn best.
-    </p>
-  </mat-card>
-
   <ng-container *ngIf="!finished() && quizEngine.currentQuestion() as question; else finishedState">
     <app-quiz-card align="center" class="play-card">
       <app-question-prompt
@@ -29,18 +15,18 @@
       />
 
       <div class="input-row">
-        <ng-container *ngIf="quizSettings.showHints()">
-          <app-hint-button
-            [disabled]="quizEngine.status() !== 'idle'"
-            [hintsLeft]="quizEngine.hintsLeft()"
-            (requestHint)="handleRequestHint()"
-          />
-        </ng-container>
-
         <app-answer-input
           [disabled]="quizEngine.status() !== 'idle'"
           (submitted)="handleSubmit($event)"
-        />
+        >
+          <ng-container *ngIf="quizSettings.showHints()">
+            <app-hint-button
+              [disabled]="quizEngine.status() !== 'idle'"
+              [hintsLeft]="quizEngine.hintsLeft()"
+              (requestHint)="handleRequestHint()"
+            />
+          </ng-container>
+        </app-answer-input>
       </div>
 
       <app-hint-panel

@@ -10,12 +10,15 @@
     />
   </mat-form-field>
 
-  <button
-    mat-raised-button
-    color="primary"
-    type="submit"
-    [disabled]="disabled"
-  >
-    Submit
-  </button>
+  <div class="answer-actions">
+    <ng-content></ng-content>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="disabled"
+    >
+      Submit
+    </button>
+  </div>
 </form>

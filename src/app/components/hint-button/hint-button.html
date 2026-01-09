@@ -1,10 +1,10 @@
 <button
-  mat-stroked-button
-  color="accent"
+  mat-raised-button
+  color="primary"
   class="hint-button"
+  type="button"
   (click)="requestHint.emit()"
   [disabled]="disabled || hintsLeft <= 0"
 >
-  <mat-icon aria-hidden="true">help_outline</mat-icon>
   Hint ({{ hintsLeft }} left)
 </button>
