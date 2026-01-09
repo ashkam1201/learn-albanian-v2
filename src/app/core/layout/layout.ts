@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -10,7 +10,17 @@ import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-layout',
-  imports: [Header, Footer, RouterOutlet, RouterLink, MatSidenavModule, MatListModule, MatIconModule],
+  standalone: true,
+  imports: [
+    Header,
+    Footer,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+  ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })

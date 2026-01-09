@@ -1,3 +1,14 @@
 <app-quiz-card align="center">
-  <p>quiz-result works!</p>
+  <h2>Latest Result</h2>
+
+  <ng-container *ngIf="history.allRecords().length > 0; else emptyState">
+    <ng-container *ngIf="history.allRecords()[0] as latest">
+      <p>Score: {{ latest.score }} / {{ latest.total }}</p>
+      <p>{{ latest.playedAt | date: 'medium' }}</p>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <p>No results yet. Play a quiz to see your latest score.</p>
+  </ng-template>
 </app-quiz-card>

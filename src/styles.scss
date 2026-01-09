@@ -1,20 +1,8 @@
 
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@use './styles/theme' as app-theme;
 
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: 'Poppins',
-    density: 0,
-  ));
+  @include app-theme.app-theme;
   height: 100%;
 }
 
@@ -24,18 +12,45 @@ body {
   // user's system settings.
   color-scheme: light;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  background-color: var(--c-bg-1);
+  color: var(--c-text-light);
   font: var(--mat-sys-body-medium);
   font-family: 'Poppins', sans-serif;
 
   // Reset the user agent margin.
   margin: 0;
   min-height: 100%;
-  background: linear-gradient(135deg, #3550DC, #27E9F7);
+  background: linear-gradient(135deg, var(--c-bg-1), var(--c-bg-2));
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+:root {
+  --c-primary: #3F88C5;
+  --c-accent: #FFBA08;
+  --c-warn: #D00000;
+  --c-bg-1: #032B43;
+  --c-bg-2: #136F63;
+  --c-surface: #F6F8FA;
+  --c-text-dark: #0F172A;
+  --c-text-light: #FFFFFF;
+
+  --mat-sys-primary: var(--c-primary);
+  --mat-sys-tertiary: var(--c-accent);
+  --mat-sys-error: var(--c-warn);
+  --mat-sys-surface: var(--c-surface);
+  --mat-sys-surface-container: var(--c-surface);
+  --mat-sys-surface-container-low: var(--c-surface);
+  --mat-sys-surface-container-high: var(--c-surface);
+  --mat-sys-on-primary: var(--c-text-light);
+  --mat-sys-on-tertiary: var(--c-text-dark);
+  --mat-sys-on-error: var(--c-text-light);
+  --mat-sys-on-surface: var(--c-text-dark);
+  --mat-sys-outline: rgba(0, 0, 0, 0.12);
+  --mat-sys-outline-variant: rgba(0, 0, 0, 0.12);
 }
 
 button,
@@ -43,4 +58,37 @@ input,
 textarea,
 select {
   font-family: 'Poppins', sans-serif;
+}
+
+a {
+  color: var(--c-accent);
+}
+
+.mat-mdc-card {
+  background-color: var(--c-surface);
+  color: var(--c-text-dark);
+}
+
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-raised-button:not(.mat-warn):not(.mat-accent):not(.mat-primary),
+.mat-mdc-unelevated-button:not(.mat-warn):not(.mat-accent):not(.mat-primary) {
+  background-color: var(--c-primary);
+  color: var(--c-text-light);
+}
+
+.mat-mdc-raised-button.mat-accent,
+.mat-mdc-unelevated-button.mat-accent {
+  background-color: var(--c-accent);
+  color: var(--c-text-dark);
+}
+
+.mat-mdc-raised-button.mat-warn,
+.mat-mdc-unelevated-button.mat-warn {
+  background-color: var(--c-warn);
+  color: var(--c-text-light);
+}
+
+.mat-mdc-form-field .mdc-text-field--outlined {
+  background-color: var(--c-surface);
 }

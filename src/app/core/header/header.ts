@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   imports: [NgIf, MatToolbarModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',

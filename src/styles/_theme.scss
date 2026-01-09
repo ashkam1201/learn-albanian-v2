@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+
+@mixin app-theme {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$orange-palette,
+      error: mat.$red-palette,
+    ),
+    typography: 'Poppins',
+    density: 0,
+  ));
+}

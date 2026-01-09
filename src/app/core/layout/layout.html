@@ -7,22 +7,43 @@
     [autoFocus]="false"
   >
     <div class="sidebar-header">Menu</div>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/" (click)="isMobile() && sidenav.close()">
-        <mat-icon aria-hidden="true">home</mat-icon>
-        <span>Home</span>
+    <mat-nav-list class="sidebar-nav">
+      <a
+        mat-list-item
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="isMobile() && sidenav.close()"
+      >
+        <mat-icon matListItemIcon aria-hidden="true">home</mat-icon>
+        <span matListItemTitle>Home</span>
       </a>
-      <a mat-list-item routerLink="/play" (click)="isMobile() && sidenav.close()">
-        <mat-icon aria-hidden="true">play_circle</mat-icon>
-        <span>Play</span>
+      <a
+        mat-list-item
+        routerLink="/play"
+        routerLinkActive="active"
+        (click)="isMobile() && sidenav.close()"
+      >
+        <mat-icon matListItemIcon aria-hidden="true">play_circle</mat-icon>
+        <span matListItemTitle>Play</span>
       </a>
-      <a mat-list-item routerLink="/result" (click)="isMobile() && sidenav.close()">
-        <mat-icon aria-hidden="true">leaderboard</mat-icon>
-        <span>Results</span>
+      <a
+        mat-list-item
+        routerLink="/result"
+        routerLinkActive="active"
+        (click)="isMobile() && sidenav.close()"
+      >
+        <mat-icon matListItemIcon aria-hidden="true">leaderboard</mat-icon>
+        <span matListItemTitle>Results</span>
       </a>
-      <a mat-list-item routerLink="/settings" (click)="isMobile() && sidenav.close()">
-        <mat-icon aria-hidden="true">settings</mat-icon>
-        <span>Settings</span>
+      <a
+        mat-list-item
+        routerLink="/settings"
+        routerLinkActive="active"
+        (click)="isMobile() && sidenav.close()"
+      >
+        <mat-icon matListItemIcon aria-hidden="true">settings</mat-icon>
+        <span matListItemTitle>Settings</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
