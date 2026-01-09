@@ -8,6 +8,12 @@ app-progress-header {
   align-self: flex-start;
 }
 
+@media (max-width: 600px) {
+  app-progress-header {
+    align-self: center;
+  }
+}
+
 .info-card {
   line-height: 1.5;
 }
