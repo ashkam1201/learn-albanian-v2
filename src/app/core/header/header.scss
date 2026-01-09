@@ -1,25 +1,26 @@
-.nav-container {
+.app-toolbar {
   width: 100%;
-  min-height: 80px;
-}
-
-.nav-toolbar {
-  width: 100%;
-  min-height: 80px;
-}
-
-.drawer-actions {
-  display: flex;
-  gap: 12px;
-  padding: 0 4px;
-}
-
-.sidenav {
+  min-height: 72px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
-  overflow: hidden;
+  padding: 0 1.5rem;
+}
+
+.brand-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.brand-link:hover {
+  opacity: 0.85;
+}
+
+.brand-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .spacer {
