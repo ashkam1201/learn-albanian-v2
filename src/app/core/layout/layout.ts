@@ -1,5 +1,5 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
+import { ActivationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -7,6 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
+import { routeAnimations } from '../animations/route-animations';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-layout',
@@ -21,16 +23,22 @@ import { Footer } from '../footer/footer';
     MatListModule,
     MatIconModule,
   ],
+  animations: [routeAnimations],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
-export class Layout {
+export class Layout implements AfterViewInit {
+  @ViewChild(RouterOutlet) private outlet?: RouterOutlet;
+
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   protected readonly isMobile = signal(false);
   protected readonly sidenavMode = signal<'over' | 'side'>('side');
   protected readonly sidenavOpened = signal(true);
+  protected readonly routeAnimationKey = signal<string | undefined>(undefined);
 
   constructor() {
     this.breakpointObserver
@@ -41,5 +49,24 @@ export class Layout {
         this.sidenavMode.set(state.matches ? 'over' : 'side');
         this.sidenavOpened.set(!state.matches);
       });
+
+    this.router.events
+      .pipe(
+        filter((event): event is ActivationEnd => event instanceof ActivationEnd && event.snapshot.outlet === 'primary'),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((event) => {
+        const key = event.snapshot.data?.['animation'] ?? event.snapshot.routeConfig?.path;
+        this.routeAnimationKey.set(key);
+      });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.outlet?.isActivated) {
+      const key =
+        this.outlet.activatedRouteData?.['animation'] ?? this.outlet.activatedRoute?.routeConfig?.path;
+      this.routeAnimationKey.set(key);
+      this.cdr.detectChanges();
+    }
   }
 }

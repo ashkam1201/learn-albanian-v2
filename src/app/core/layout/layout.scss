@@ -58,4 +58,11 @@
 .page {
   flex: 1;
   padding: 1.5rem;
+  position: relative;
+}
+
+.route-container {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 72px);
 }

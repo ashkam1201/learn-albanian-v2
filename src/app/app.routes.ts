@@ -12,12 +12,12 @@ export const routes: Routes = [
     path: '',
     component: Layout,
     children: [
-      { path: '', component: QuizHome },
-      { path: 'play', component: QuizPlay },
-      { path: 'rules', component: QuizRules },
-      { path: 'settings', component: QuizSettings },
-      { path: 'profile', component: QuizProfile },
-      { path: 'result', component: QuizResult }
+      { path: '', component: QuizHome, data: { animation: 'home' } },
+      { path: 'play', component: QuizPlay, data: { animation: 'play' } },
+      { path: 'rules', component: QuizRules, data: { animation: 'rules' } },
+      { path: 'settings', component: QuizSettings, data: { animation: 'settings' } },
+      { path: 'profile', component: QuizProfile, data: { animation: 'profile' } },
+      { path: 'result', component: QuizResult, data: { animation: 'result' } }
     ]
   }
 ];
