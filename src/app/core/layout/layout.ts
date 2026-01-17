@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ViewChild, inject, signal } from '@angular/core';
-import { ActivationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -52,12 +52,12 @@ export class Layout implements AfterViewInit {
 
     this.router.events
       .pipe(
-        filter((event): event is ActivationEnd => event instanceof ActivationEnd && event.snapshot.outlet === 'primary'),
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event) => {
-        const key = event.snapshot.data?.['animation'] ?? event.snapshot.routeConfig?.path;
-        this.routeAnimationKey.set(key);
+        const key = this.getRouteAnimationKey();
+        this.routeAnimationKey.set(`${key ?? 'route'}-${event.id}`);
       });
   }
 
@@ -65,8 +65,16 @@ export class Layout implements AfterViewInit {
     if (this.outlet?.isActivated) {
       const key =
         this.outlet.activatedRouteData?.['animation'] ?? this.outlet.activatedRoute?.routeConfig?.path;
-      this.routeAnimationKey.set(key);
+      this.routeAnimationKey.set(`${key ?? 'route'}-init`);
       this.cdr.detectChanges();
     }
+  }
+
+  private getRouteAnimationKey(): string | undefined {
+    let current = this.router.routerState.root;
+    while (current.firstChild) {
+      current = current.firstChild;
+    }
+    return current.snapshot.data?.['animation'] ?? current.snapshot.routeConfig?.path;
   }
 }
