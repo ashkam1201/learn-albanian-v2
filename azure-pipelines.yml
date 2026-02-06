@@ -5,36 +5,44 @@ pool:
   name: Default
 
 variables:
-  nodeVersion: '18.x'
   projectPath: '.'
-  # IMPORTANT: set this to your real Angular dist output folder (see note below)
+  # CHANGE THIS after the first run based on the "Debug dist output" step
   distPath: 'dist'
 
 steps:
 - checkout: self
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '$(nodeVersion)'
-  displayName: 'Use Node.js $(nodeVersion)'
+- script: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    node -v
+    npm -v
+  displayName: 'Use Node 22 (nvm)'
 
 - script: |
-    cd $(projectPath)
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    cd "$(projectPath)"
     npm ci
   displayName: 'Install dependencies'
 
 - script: |
-    cd $(projectPath)
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    cd "$(projectPath)"
     npx ng build --configuration production
   displayName: 'Build Angular (production)'
 
 # Helpful: show what's inside dist so you can set distPath correctly
 - script: |
-    cd $(projectPath)
+    cd "$(projectPath)"
     echo "=== dist contents ==="
     ls -la dist || true
-    echo "=== recursive dist (first levels) ==="
-    find dist -maxdepth 3 -type f -name "index.html" -o -name "*.js" -o -name "*.css" | head -n 50
+    echo "=== index.html locations ==="
+    find dist -maxdepth 4 -name "index.html" -print
   displayName: 'Debug dist output'
 
 # Deploy build output via FTPS
@@ -52,7 +60,7 @@ steps:
     trustSSL: true
   displayName: 'Deploy to Hostinger via FTPS'
 
-# OPTIONAL: deploy .htaccess from repo root (if you keep it there)
+# OPTIONAL: deploy .htaccess from repo root
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
