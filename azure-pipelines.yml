@@ -1,0 +1,68 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  nodeVersion: '18.x'
+  projectPath: '.'
+  # IMPORTANT: set this to your real Angular dist output folder (see note below)
+  distPath: 'dist'
+
+steps:
+- checkout: self
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '$(nodeVersion)'
+  displayName: 'Use Node.js $(nodeVersion)'
+
+- script: |
+    cd $(projectPath)
+    npm ci
+  displayName: 'Install dependencies'
+
+- script: |
+    cd $(projectPath)
+    npx ng build --configuration production
+  displayName: 'Build Angular (production)'
+
+# Helpful: show what's inside dist so you can set distPath correctly
+- script: |
+    cd $(projectPath)
+    echo "=== dist contents ==="
+    ls -la dist || true
+    echo "=== recursive dist (first levels) ==="
+    find dist -maxdepth 3 -type f -name "index.html" -o -name "*.js" -o -name "*.css" | head -n 50
+  displayName: 'Debug dist output'
+
+# Deploy build output via FTPS
+- task: FtpUpload@2
+  inputs:
+    credentialsOption: 'inputs'
+    serverUrl: 'ftps://$(FTP_HOST)'
+    username: '$(FTP_USER)'
+    password: '$(FTP_PASS)'
+    rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)'
+    filePatterns: '**'
+    remoteDirectory: '$(REMOTE_DIR)'
+    clean: true
+    preservePaths: true
+    trustSSL: true
+  displayName: 'Deploy to Hostinger via FTPS'
+
+# OPTIONAL: deploy .htaccess from repo root (if you keep it there)
+- task: FtpUpload@2
+  inputs:
+    credentialsOption: 'inputs'
+    serverUrl: 'ftps://$(FTP_HOST)'
+    username: '$(FTP_USER)'
+    password: '$(FTP_PASS)'
+    rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)'
+    filePatterns: '.htaccess'
+    remoteDirectory: '$(REMOTE_DIR)'
+    clean: false
+    preservePaths: false
+    trustSSL: true
+  displayName: 'Deploy .htaccess (optional)'
