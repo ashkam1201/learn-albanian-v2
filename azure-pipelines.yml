@@ -46,6 +46,7 @@ steps:
   displayName: 'Debug dist output'
 
 # Deploy Angular build to DOMAIN ROOT (FTP root == Hostinger public_html)
+# Deploy Angular build to Hostinger public_html (domain root)
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
@@ -54,13 +55,13 @@ steps:
     password: '$(FTP_PASS)'
     rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)'
     filePatterns: '**'
-    remoteDirectory: '/'
+    remoteDirectory: '/public_html'
     clean: false
     preservePaths: true
     trustSSL: false
-  displayName: 'Deploy Angular to domain root'
+  displayName: 'Deploy Angular to public_html'
 
-# Deploy .htaccess to DOMAIN ROOT (make sure .htaccess exists in repo root)
+# Deploy .htaccess to Hostinger public_html (domain root)
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
@@ -69,8 +70,8 @@ steps:
     password: '$(FTP_PASS)'
     rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)'
     filePatterns: '.htaccess'
-    remoteDirectory: '/'
+    remoteDirectory: '/public_html'
     clean: false
     preservePaths: false
     trustSSL: false
-  displayName: 'Deploy .htaccess to domain root'
+  displayName: 'Deploy .htaccess to public_html'
