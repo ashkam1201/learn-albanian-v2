@@ -1,59 +1,18 @@
-# LearnAlbanianV2
+## 🚀 Learn Albanian 🇦🇱 — Angular Web App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+This project is an Angular-based web application designed to support learning Albanian.
 
-## Development server
+### 🛠️ Technologies
+- Angular + TypeScript  
+- Azure DevOps Pipelines (YAML)  
+- Hostinger Shared Hosting  
+- FTP Deployment  
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 🔧 What I implemented
+- Built a responsive Angular SPA with client-side routing.
+- Created an automated CI/CD pipeline in Azure DevOps to:
+  - Install dependencies
+  - Build the app for production
+  - Deploy it automatically to a live server via FTP
+- Configured `.htaccess` to ensure Angular routes work correctly on a shared hosting environment.
+- Managed server file structure and resolved real-world deployment issues.
