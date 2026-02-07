@@ -1,0 +1,87 @@
+trigger:
+- main
+
+pool:
+  name: Default
+
+variables:
+  projectPath: '.'
+  # IMPORTANT: set this to the folder that CONTAINS index.html after the build.
+  # After you check the "Debug dist output" step, change to e.g.:
+  # - dist/your-app-name
+  # - dist/your-app-name/browser
+  distPath: 'dist'
+
+steps:
+- checkout: self
+
+- script: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    node -v
+    npm -v
+  displayName: 'Use Node 22 (nvm)'
+
+- script: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    cd "$(projectPath)"
+    npm ci
+  displayName: 'Install dependencies'
+
+- script: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    nvm use 22
+    cd "$(projectPath)"
+    npx ng build --configuration production
+  displayName: 'Build Angular (production)'
+
+# Show where index.html is so you can set distPath correctly
+- script: |
+    cd "$(projectPath)"
+    echo "=== dist contents ==="
+    ls -la dist || true
+    echo "=== index.html locations ==="
+    find dist -maxdepth 6 -name "index.html" -print
+  displayName: 'Debug dist output'
+
+# Optional safe debug (no password)
+- script: |
+    echo "FTP_HOST=$(FTP_HOST)"
+    echo "FTP_USER=$(FTP_USER)"
+    echo "REMOTE_DIR=/"
+    echo "LOCAL_DIST=$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)"
+  displayName: 'Debug FTP variables (safe)'
+
+# Deploy build output via FTP into the FTP root (Hostinger usually maps this to the real public_html)
+- task: FtpUpload@2
+  inputs:
+    credentialsOption: 'inputs'
+    serverUrl: 'ftp://$(FTP_HOST)'
+    username: '$(FTP_USER)'
+    password: '$(FTP_PASS)'
+    rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)'
+    filePatterns: '**'
+    remoteDirectory: '/'
+    clean: false
+    preservePaths: true
+    trustSSL: false
+  displayName: 'Deploy to Hostinger via FTP'
+
+# OPTIONAL: deploy .htaccess from repo root (if you have one)
+- task: FtpUpload@2
+  inputs:
+    credentialsOption: 'inputs'
+    serverUrl: 'ftp://$(FTP_HOST)'
+    username: '$(FTP_USER)'
+    password: '$(FTP_PASS)'
+    rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)'
+    filePatterns: '.htaccess'
+    remoteDirectory: '/'
+    clean: false
+    preservePaths: false
+    trustSSL: false
+  displayName: 'Deploy .htaccess (optional)'
