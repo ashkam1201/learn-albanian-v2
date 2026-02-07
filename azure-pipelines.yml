@@ -6,11 +6,8 @@ pool:
 
 variables:
   projectPath: '.'
-  # IMPORTANT: set this to the folder that CONTAINS index.html after the build.
-  # After you check the "Debug dist output" step, change to e.g.:
-  # - dist/your-app-name
-  # - dist/your-app-name/browser
-  distPath: 'dist'
+  # This MUST be the folder that contains index.html
+  distPath: 'dist/learn-albanian-v2/browser'
 
 steps:
 - checkout: self
@@ -39,24 +36,16 @@ steps:
     npx ng build --configuration production
   displayName: 'Build Angular (production)'
 
-# Show where index.html is so you can set distPath correctly
+# Optional: confirm index.html location in logs
 - script: |
     cd "$(projectPath)"
-    echo "=== dist contents ==="
-    ls -la dist || true
     echo "=== index.html locations ==="
     find dist -maxdepth 6 -name "index.html" -print
+    echo "=== deploying from ==="
+    ls -la "$(distPath)" || true
   displayName: 'Debug dist output'
 
-# Optional safe debug (no password)
-- script: |
-    echo "FTP_HOST=$(FTP_HOST)"
-    echo "FTP_USER=$(FTP_USER)"
-    echo "REMOTE_DIR=/"
-    echo "LOCAL_DIST=$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)"
-  displayName: 'Debug FTP variables (safe)'
-
-# Deploy build output via FTP into the FTP root (Hostinger usually maps this to the real public_html)
+# Deploy Angular build to DOMAIN ROOT (FTP root == Hostinger public_html)
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
@@ -69,9 +58,9 @@ steps:
     clean: false
     preservePaths: true
     trustSSL: false
-  displayName: 'Deploy to Hostinger via FTP'
+  displayName: 'Deploy Angular to domain root'
 
-# OPTIONAL: deploy .htaccess from repo root (if you have one)
+# Deploy .htaccess to DOMAIN ROOT (make sure .htaccess exists in repo root)
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
@@ -84,4 +73,4 @@ steps:
     clean: false
     preservePaths: false
     trustSSL: false
-  displayName: 'Deploy .htaccess (optional)'
+  displayName: 'Deploy .htaccess to domain root'
