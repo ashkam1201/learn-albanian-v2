@@ -45,11 +45,19 @@ steps:
     find dist -maxdepth 4 -name "index.html" -print
   displayName: 'Debug dist output'
 
-# Deploy build output via FTPS
+# Optional safe debug (no password)
+- script: |
+    echo "FTP_HOST=$(FTP_HOST)"
+    echo "FTP_USER=$(FTP_USER)"
+    echo "REMOTE_DIR=$(REMOTE_DIR)"
+    echo "DIST_DIR=$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)"
+  displayName: 'Debug FTP variables (safe)'
+
+# Deploy build output via plain FTP
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
-    serverUrl: 'ftps://$(FTP_HOST)'
+    serverUrl: 'ftp://$(FTP_HOST)'
     username: '$(FTP_USER)'
     password: '$(FTP_PASS)'
     rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)/$(distPath)'
@@ -57,14 +65,14 @@ steps:
     remoteDirectory: '$(REMOTE_DIR)'
     clean: true
     preservePaths: true
-    trustSSL: true
-  displayName: 'Deploy to Hostinger via FTPS'
+    trustSSL: false
+  displayName: 'Deploy to Hostinger via FTP'
 
 # OPTIONAL: deploy .htaccess from repo root
 - task: FtpUpload@2
   inputs:
     credentialsOption: 'inputs'
-    serverUrl: 'ftps://$(FTP_HOST)'
+    serverUrl: 'ftp://$(FTP_HOST)'
     username: '$(FTP_USER)'
     password: '$(FTP_PASS)'
     rootDirectory: '$(System.DefaultWorkingDirectory)/$(projectPath)'
@@ -72,5 +80,5 @@ steps:
     remoteDirectory: '$(REMOTE_DIR)'
     clean: false
     preservePaths: false
-    trustSSL: true
+    trustSSL: false
   displayName: 'Deploy .htaccess (optional)'
